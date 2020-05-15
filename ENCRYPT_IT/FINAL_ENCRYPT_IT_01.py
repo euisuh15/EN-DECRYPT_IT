@@ -4,8 +4,8 @@ from Crypto import Random
 import os, sys
 
 #KEYIV used for encrypting KEYIV
-key0 = b'\xbd4k/\xac\xf2\xfc\xff\xa6\x03\x7f\x10W\x83e\xba' 
-iv0 = b'\xeb\x0f1\x1c\xd8\xa5\x8d\xf5d\x97\x9aJ\xd8\xb9_\xeb' 
+key0 =
+iv0 =
 
 #KEYIV used for encrypting data
 key = Random.new().read(AES.block_size)
