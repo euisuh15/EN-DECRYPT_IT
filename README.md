@@ -51,3 +51,7 @@ The project is created using *Python 3.7* and it involves the process of...
 * **EuiSuh (John) Jeong** - *Initial work* - [website](https://web2.qatar.cmu.edu/~ejeong/)
 * **Qian (Ivy) Lou** - *Beta Testing*
 
+## References
+* https://nitratine.net/blog/post/python-encryption-and-decryption-with-pycryptodome/
+* https://stackoverflow.com/questions/41980931/image-encryption-and-decryption-using-pycrypto
+
