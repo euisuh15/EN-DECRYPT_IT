@@ -48,6 +48,6 @@ The project is created using *Python 3.7* and it involves the process of...
 
 ## Authors
 
-* **EuiSuh (John) Jeong** - *Initial work* - [euisuh15](https://github.com/euisuh15)
+* **EuiSuh (John) Jeong** - *Initial work* - [website](https://web2.qatar.cmu.edu/~ejeong/)
 * **Qian (Ivy) Lou** - *Beta Testing*
 
