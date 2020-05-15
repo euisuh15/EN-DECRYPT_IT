@@ -23,8 +23,7 @@ print ("The program allows you to encrypt files")
 print ("Please put the files you want to encrypt in \'1ORIGINAL\'")
 temp = input ("Press \'Enter\' key to continue...")
 
-print ("Retrieving files in 1ORIGINAL")
-print ("")
+print ("Retrieving files in 1ORIGINAL\n")
 
 try:
 	inFiles = os.listdir("1ORIGINAL")
