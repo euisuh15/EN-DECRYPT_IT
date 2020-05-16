@@ -39,8 +39,8 @@ Directory *2DECRYPTED* with the decrypted files is formed in the current directo
 ## Technologies
 
 The project is created using *Python 3.7* and it involves the process of...
-* Generating random value using Crypto package
 * Using AES (Advanced Encryption Standard) to encrypt / decrypt files
+* Generating random value using Crypto package
 * Formulating an executable file from python script
 * Making basic system calls
 * Parsing .txt, .py, .key files
