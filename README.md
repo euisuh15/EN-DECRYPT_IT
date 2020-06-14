@@ -1,5 +1,5 @@
 # EN-DECRYPT_IT
-Encrypts and decrypts files using AES (Advanced Encryption Standard)
+Encrypt and decrypt files using AES (Advanced Encryption Standard)
 
 ## Getting Started
 Install Python
