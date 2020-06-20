@@ -96,7 +96,8 @@ print ("Beginning Decryption...\n")
 for file in inFiles:
 	print ("Decrypting", file)
 
-	filedata = readByteFile("2ENCRYPTED/"+file+".enc")
+	filedata = readByteFile("2ENCRYPTED/"+file)
+
 	writeByteFile("3DECRYPTED/"+file[:-4], decrypt_it(filedata))
 
 
