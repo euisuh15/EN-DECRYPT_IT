@@ -3,85 +3,104 @@ from Crypto import Random
 
 import os, sys
 
-#KEYIV used for decrypting KEYIV
-key0 =
-iv0 =
+#KEYIV used for encrypting KEYIV
+key0 = b'\xbd4k/\xac\xf2\xfc\xff\xa6\x03\x7f\x10W\x83e\xba' 
+iv0 = b'\xeb\x0f1\x1c\xd8\xa5\x8d\xf5d\x97\x9aJ\xd8\xb9_\xeb' 
 
-print ("The program allows you to decrypt files")
-print ("Please put the key file you have received from the sender in the current directory")
-temp = input ("Press \'Enter\' key to continue...\n")
 
-#Decrypting KEYIV
-print ("Decrypting KEYIV")
+def encrypt_it(bytefile, key=key0, iv=iv0):
+	cfb_cipher = AES.new(key, AES.MODE_CFB, iv)
+	return cfb_cipher.encrypt(bytefile)
 
-try:
-	enc_file1 = open("KEYIV.key", "rb")
-	enc_data1 = enc_file1.read()
-	enc_file1.close()
-except:
-	raise Exception('KEYIV.key does not exist in the current directory')
+def decrypt_it(bytefile):
+	cfb_decipher = AES.new(key, AES.MODE_CFB, iv)
+	return cfb_decipher.decrypt(bytefile)
 
-cfb_decipher = AES.new(key0, AES.MODE_CFB, iv0)
-plain_data = cfb_decipher.decrypt(enc_data1)
+def readByteFile(dir):
+	file = open(dir, "rb")
+	data = file.read()
+	file.close()
+	return data
 
-output_file = open("KEYIV.key", "wb")
-output_file.write(plain_data)
-output_file.close()
-print ("Decrypting Completed\n")
+def writeByteFile(dir, data):
+	file = open(dir, "wb")
+	file.write(data)
+	file.close()
 
-#Retrieving KEY and IV used for decryption
-print ("Retrieving KEYIV")
+def safe_os(cmd):
+	try:
+		os.system(cmd)
+	except:
+		pass
 
-try:
-	keyiv = open ("KEYIV.key", 'r')
-	ki = keyiv.readlines()
-	keyiv.close()
-except:
-	raise Exception('KEYIV.key does not exist in the current directory')
+def keyGenerate():
+	f = open("KEYIV.key", "w+")
+	f.write("key = %s \n" %key)
+	f.write("iv = %s \n" %iv)
+	f.close()
 
-print ("Retrieving completed\n")
+	key_data = readByteFile("KEYIV.key")
+	writeByteFile("KEYIV.key", encrypt_it(key_data))
 
-exec("key = "+ ki[0][6:-2])
-exec("iv = " + ki[1][5:-2])
 
-try:
-	os.system('mkdir 1ENCRYPTED')
-except:
-	pass
+#KEYIV used for encrypting data
+key = Random.new().read(AES.block_size)
+iv = Random.new().read(AES.block_size) #initialization vector
 
-print ("Please put the files you want to decrypt in \'1ENCRYPTED\'")
+# print ("\nKEY:", key)
+# print ("IV:", iv, "\n")
+
+safe_os('mkdir 1ORIGINAL')
+safe_os('mkdir 2ENCRYPTED')
+safe_os('mkdir 3DECRYPTED')
+
+print ("The program allows you to encrypt files")
+print ("Please put the files you want to encrypt in \'1ORIGINAL\'")
+
 temp = input ("Press \'Enter\' key to continue...")
 
-#Begin decryption
-print ("Retrieving files in 1ENCRYPTED")
+# Creating txt with key and iv used for encryption
+print ("Generating KEYIV for the recipient")
+keyGenerate()
 
+
+print ("Retrieving files in 1ORIGINAL\n")
 try:
-	inFiles = os.listdir("1ENCRYPTED")
+	oriFile = os.listdir("1ORIGINAL")
 except:
-	raise Exception('Directory \'1ENCRYPTED\' does not exist in the current directory')
+	raise Exception('Directory \'1ORIGINAL\' does not exist in the current directory')
 
-print ("Retrieving completed")
-print ("Beginning Decryption\n")
+
+print ("Beginning Encryption...\n")
+
+for file in oriFile:
+	print ("Encrypting", file)
+
+	filedata = readByteFile("1ORIGINAL/"+file)
+	writeByteFile("2ENCRYPTED/"+file+".enc", encrypt_it(filedata, key, iv))
+
+	print ("Completed encrypting", file, "\n")
+
+print ("Encryption successful\n")
+
+
+print ("Retrieving files in 2ENCRYPTED\n")
+try:
+	inFiles = os.listdir("2ENCRYPTED")
+except:
+	raise Exception('Directory \'2ENCRYPTED\' does not exist in the current directory')
+
+
+print ("Beginning Decryption...\n")
 
 for file in inFiles:
 	print ("Decrypting", file)
 
-	enc_file2 = open("1ENCRYPTED/"+file, "rb")
-	enc_data2 = enc_file2.read()
-	enc_file2.close()
+	filedata = readByteFile("2ENCRYPTED/"+file)
 
-	cfb_decipher = AES.new(key, AES.MODE_CFB, iv)
-	plain_data = cfb_decipher.decrypt(enc_data2)
+	writeByteFile("3DECRYPTED/"+file[:-4], decrypt_it(filedata))
 
-	try:
-		os.system('mkdir 2DECRYPTED')
-	except:
-		pass
 
-	output_file = open("2DECRYPTED/"+file[:-4], "wb")
-	output_file.write(plain_data)
-	output_file.close()
 	print ("Completed decrypting", file, "\n")
 
-print ("Decrypting Completed\n")
-
+print ("Decryption successful\n")
