@@ -1,4 +1,4 @@
-# EN-DECRYPT_IT
+# KEYFILE_AES
 Encrypt and decrypt files using AES (Advanced Encryption Standard)
 
 ## Getting Started
